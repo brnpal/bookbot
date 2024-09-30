@@ -46,5 +46,6 @@ def chars_count(book):
     sorted_chars = dict(sorted(sorted_chars.items(), key=lambda item: item[1], reverse=True))
     return sorted_chars
 
+#I'm having a lot of fun
 
 main()
