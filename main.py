@@ -1,29 +1,38 @@
 def main():
-    book_path = "books/frankenstein.txt"
-    retrieve_book(book_path)
-    count_words(book_path)
-    count_chars(book_path)
+    book = pick_book()
+    book_contents = open_book(book)
+    book_chars = chars_count(book_contents)
 
-def retrieve_book(book):
+    print(f"--- Begin report of {book} ---")
+    print(f"{book_wordcount(book_contents)} words found in the text.\n\n")
+
+    for char, num in book_chars.items():
+        print(f"The char {char} was found {num} times.")
+
+
+def pick_book():
+    return "books/frankenstein.txt"
+
+#locates and opens book file    
+def open_book(book):   
     with open(book) as f:
-     return f.read()
+        file_contents = f.read()
+    return file_contents
 
-def count_words(book):
-    words = book.split()
-    print(f"There were {len(words)} words in this book.")
+#returns number of words in book
+def book_wordcount(book):
+    return len(book.split())
 
-def count_chars(book):
-    book_lower_case = book.lower()
-    chars = {"a", "b", "c", }
-    count_dict = {}
-    for char in chars:
-        count = 0
-        for book_char in book:
-            if char == book_char:
-                count += 1
-        count_dict.update({char:count})
-        print(f"The {char} character was found {count} times.")
-    # WIP, sort chars highest to lowest
-
+def chars_count(book):
+    chars = {}
+    for c in book:
+        if c != " ":
+            lowered = c.lower()
+            if lowered in chars:
+                chars[lowered] += 1
+            else:
+                chars[lowered] = 1
+    sorted_chars = dict(sorted(chars.items(), key=lambda item: item[1], reverse=True))
+    return sorted_chars
 
 main()
